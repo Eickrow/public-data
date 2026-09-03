@@ -5,9 +5,8 @@ mixed-port: 7893
 allow-lan: false
 mode: rule
 log-level: info
-external-controller: 0.0.0.0:9090
-unified-delay: false
-
+external-controller: 127.0.0.1:9090
+unified-delay: true
 sniffer:
   sniff:
     TLS: {ports: [443], override-destination: true}
@@ -16,28 +15,29 @@ sniffer:
   parse-pure-ip: false
   force-dns-mapping: true
   override-destination: true
-
 ipv6: false
-
 clash-for-android:
   append-system-dns: false
-
+profile:
+  tracing: true
 experimental:
   sniff-tls-sni: true
-
 dns:
   enable: true
   ipv6: false
-  listen: 0.0.0.0:1053
-  use-hosts: false
+  listen: 127.0.0.1:7874
+  use-hosts: true
+  use-system-hosts: false
   nameserver:
     - 119.29.29.29
     - 223.5.5.5
-    - tls://223.5.5.5:853
-    - tls://223.6.6.6:853
-    - tls://120.53.53.53
-    - tls://1.12.12.12
-  fake-ip-range: 198.18.0.1/15
+    - tls://119.29.29.29
+    - tls://223.5.5.5
+    - https://dns.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  proxy-server-nameserver:
+    - udp://127.0.0.1:7874
+  fake-ip-range: 198.18.0.0/15
   fake-ip-filter:
     - "*.lan"
     - "*.localdomain"
@@ -117,6 +117,8 @@ dns:
     - www.bilibili.com
     - api.bilibili.com
     - a.w.bilicdn1.com
+    - +.apt-agent.dev
+  enhanced-mode: fake-ip
 
 # Populated by subconverter.
 proxies: ~
